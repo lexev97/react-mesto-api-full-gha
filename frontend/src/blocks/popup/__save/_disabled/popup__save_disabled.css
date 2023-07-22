@@ -1,0 +1,7 @@
+.popup__save_disabled {
+  cursor: auto;
+  opacity: 0.2;
+  border: 1px solid black;
+  color: black;
+  background-color: transparent;
+}

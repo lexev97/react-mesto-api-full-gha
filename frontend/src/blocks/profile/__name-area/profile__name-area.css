@@ -1,0 +1,14 @@
+.profile__name-area {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+}
+
+@media screen and (max-width: 710px) {
+  .profile__name-area {
+    justify-content: center;
+    transform: translate(12px);
+    gap: 11px;
+  }
+}

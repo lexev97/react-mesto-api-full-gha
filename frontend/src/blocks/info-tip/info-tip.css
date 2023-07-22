@@ -1,0 +1,15 @@
+.info-tip {
+  align-items: center;
+  text-align: center;
+  padding: 60px 36px;
+  gap: 32px;
+}
+
+@media screen and (max-width: 530px) {
+  .info-tip {
+    font-size: 20px;
+    line-height: 24px;
+    padding: 50px 18px;
+    gap: 40px;
+  }
+}

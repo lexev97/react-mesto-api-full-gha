@@ -1,0 +1,12 @@
+.header__links {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 24px;
+}
+
+@media screen and (max-width: 710px) {
+  .header__links {
+    padding: 0 30px 0 0;
+  }
+}

@@ -1,0 +1,13 @@
+.popup__save_white {
+  margin: 167px 0 0 0;
+  color: black;
+  background-color: white;
+}
+
+@media screen and (max-width: 530px) {
+  .popup__save_white {
+    margin: 124px 0 0 0;
+    font-size: 16px;
+    line-height: 19px;
+  }
+}
