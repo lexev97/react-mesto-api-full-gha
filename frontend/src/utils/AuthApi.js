@@ -13,8 +13,6 @@ class AuthApi {
     }
   }
 
-  // Тестовое сообщение!!!
-
   signUp(userData) {
     return fetch(this._baseUrl + this._signUp, {
       method: "POST",
