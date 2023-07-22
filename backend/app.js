@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const { celebrate, Joi } = require('celebrate');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { linkRegex } = require('./constants/constants');
 const {
   NOT_FOUND,
@@ -12,6 +13,7 @@ const {
   CONFLICT,
 } = require('./errors/statusCodes');
 const { login, addUser } = require('./controllers/users');
+
 const { PORT = 3000, MONGOOSE_DB = 'mongodb://localhost:27017/mestodb' } = process.env;
 
 const app = express();
@@ -20,6 +22,8 @@ mongoose.connect(MONGOOSE_DB);
 
 app.use(cookieParser());
 app.use(express.json());
+
+app.use(requestLogger);
 
 app.post(
   '/signin',
@@ -46,6 +50,8 @@ app.post(
 );
 
 app.use('/', require('./routes/index'));
+
+app.use(errorLogger);
 
 app.use(errors());
 app.use((err, req, res, next) => {
