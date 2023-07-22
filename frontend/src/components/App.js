@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 import Header from "./Header";
 import Register from "./Register";
@@ -65,10 +66,10 @@ function App() {
   }, [loggedIn]);
 
   const tokenCheck = () => {
-    if (localStorage.getItem("jwt")) {
-      const jwt = localStorage.getItem("jwt");
+    console.log(Cookies.get("jwt"));
+    if (Cookies.get("jwt")) {
       authApi
-        .getUserData(jwt)
+        .getUserData()
         .then((res) => {
           if (res.data.email) {
             setCurrentUser((prevState) => ({ ...prevState, ...res.data }));
@@ -93,8 +94,7 @@ function App() {
     authApi
       .signIn(userData)
       .then((res) => {
-        if (res.token) {
-          localStorage.setItem("jwt", res.token);
+        if (res.message === 'Авторизация прошла успешно!') {
           setLoggedIn(true);
           setCurrentUser((prevState) => ({
             ...prevState,
@@ -138,7 +138,7 @@ function App() {
       });
   };
   const handleLogOutLink = () => {
-    localStorage.removeItem("jwt");
+    Cookies.remove("jwt");
     setLoggedIn(false);
     navigate("/sign-in", { replace: true });
   };

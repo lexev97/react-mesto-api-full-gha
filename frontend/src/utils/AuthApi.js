@@ -1,6 +1,6 @@
 class AuthApi {
   constructor() {
-    this._baseUrl = "https://auth.nomoreparties.co";
+    this._baseUrl = "https://api.place.nomoredomains.xyz";
     this._signUp = "/signup";
     this._signIn = "/signin";
   }
@@ -39,12 +39,12 @@ class AuthApi {
     }).then((res) => this._getResponseData(res));
   }
 
-  getUserData(jwt) {
+  getUserData() {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "GET",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${jwt}`,
       },
     }).then((res) => this._getResponseData(res));
   }
