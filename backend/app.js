@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const { celebrate, Joi } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { linkRegex, allowedCors } = require('./constants/constants');
+const { corsHandler } = require('./middlewares/cors');
+const { linkRegex } = require('./constants/constants');
 const {
   NOT_FOUND,
   SERVER_ERROR,
@@ -25,23 +26,12 @@ app.use(express.json());
 
 app.use(requestLogger);
 
-app.use(function(req, res, next) {
-  const { origin } = req.headers;
-  const { method } = req;
-  const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
-  const requestHeaders = req.headers['access-control-request-headers'];
+app.use(corsHandler);
 
-  if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
-
-  if (method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
-    res.header('Access-Control-Allow-Headers', requestHeaders);
-    return res.end();
-  }
-
-  next();
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
 });
 
 app.post(
