@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const helmet = require('helmet');
+// const helmet = require('helmet');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const { celebrate, Joi } = require('celebrate');
@@ -22,6 +22,7 @@ const { PORT = 3000, MONGOOSE_DB = 'mongodb://localhost:27017/mestodb' } = proce
 const app = express();
 
 mongoose.connect(MONGOOSE_DB);
+// При подключении HELMET просходит блокировка по CORS. Gробовал отключать настройки касаемые CORS, без изменений (((
 // app.use(helmet({
 //   crossOriginEmbedderPolicy: false,
 //   crossOriginResourcePolicy: false,
