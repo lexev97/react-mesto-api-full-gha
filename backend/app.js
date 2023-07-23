@@ -1,31 +1,33 @@
 require('dotenv').config();
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const { celebrate, Joi } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { corsHandler } = require('./middlewares/cors');
+const { limiter } = require('./middlewares/limiter');
 const { linkRegex } = require('./constants/constants');
 const {
-  NOT_FOUND,
   SERVER_ERROR,
   BAD_REQUEST,
   CONFLICT,
 } = require('./errors/statusCodes');
 const { login, addUser } = require('./controllers/users');
+const NotFoundError = require('./errors/NotFoundError');
 
 const { PORT = 3000, MONGOOSE_DB = 'mongodb://localhost:27017/mestodb' } = process.env;
 
 const app = express();
 
 mongoose.connect(MONGOOSE_DB);
-
+app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 
 app.use(requestLogger);
-
+app.use(limiter);
 app.use(corsHandler);
 
 app.get('/crash-test', () => {
@@ -62,6 +64,9 @@ app.use('/', require('./routes/index'));
 
 app.use(errorLogger);
 
+app.use('*', (req, res, next) => {
+  next(new NotFoundError('Маршрут не найден'));
+ });
 app.use(errors());
 app.use((err, req, res, next) => {
   if (err.statusCode) {
@@ -80,10 +85,6 @@ app.use((err, req, res, next) => {
   res.status(SERVER_ERROR).send({
     message: 'На сервере произошла ошибка',
   });
-});
-
-app.use((req, res) => {
-  res.status(NOT_FOUND).send({ message: 'Страница не найдена' });
 });
 
 app.listen(PORT);
