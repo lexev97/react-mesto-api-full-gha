@@ -15,7 +15,7 @@ const {
 } = require('./errors/statusCodes');
 const { login, addUser } = require('./controllers/users');
 
-const { PORT = 5000, MONGOOSE_DB = 'mongodb://localhost:27017/mestodb' } = process.env;
+const { PORT = 3000, MONGOOSE_DB = 'mongodb://localhost:27017/mestodb' } = process.env;
 
 const app = express();
 
