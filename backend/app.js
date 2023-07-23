@@ -7,7 +7,7 @@ const { errors } = require('celebrate');
 const { celebrate, Joi } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { corsHandler } = require('./middlewares/cors');
-const { limiter } = require('./middlewares/limiter');
+// const { limiter } = require('./middlewares/limiter');
 const { linkRegex } = require('./constants/constants');
 const {
   SERVER_ERROR,
@@ -33,7 +33,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use(requestLogger);
-app.use(limiter);
+// app.use(limiter);
 app.use(corsHandler);
 
 app.get('/crash-test', () => {
