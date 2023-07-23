@@ -1,24 +1,23 @@
-import { useState, useEffect } from "react";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
-import Cookies from "js-cookie";
+import { useState, useEffect } from 'react';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 
-import Header from "./Header";
-import Register from "./Register";
-import Login from "./Login";
-import Main from "./Main";
-import ProtectedRouteElement from "./ProtectedRouteElement";
-import Footer from "./Footer";
-import DeleteConfirmationPopup from "./DeleteConfirmationPopup";
-import ImagePopup from "./ImagePopup";
-import EditProfilePopup from "./EditProfilePopup";
-import EditAvatarPopup from "./EditAvatarPopup";
-import AddPlacePopup from "./AddPlacePopup";
-import api from "../utils/Api";
-import authApi from "../utils/AuthApi";
-import InfoToolTip from "./InfoToolTip";
-import SuccessIcon from "./SuccessIcon";
-import FailIcon from "./FailIcon";
+import Header from './Header';
+import Register from './Register';
+import Login from './Login';
+import Main from './Main';
+import ProtectedRouteElement from './ProtectedRouteElement';
+import Footer from './Footer';
+import DeleteConfirmationPopup from './DeleteConfirmationPopup';
+import ImagePopup from './ImagePopup';
+import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
+import api from '../utils/Api';
+import authApi from '../utils/AuthApi';
+import InfoToolTip from './InfoToolTip';
+import SuccessIcon from './SuccessIcon';
+import FailIcon from './FailIcon';
 
 function App() {
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
@@ -44,8 +43,8 @@ function App() {
       api
         .fetchUserInfo()
         .then((res) => {
-          if (res._id) {
-            setCurrentUser((prevState) => ({ ...prevState, ...res }));
+          if (res.data._id) {
+            setCurrentUser((prevState) => ({ ...prevState, ...res.data }));
           } else {
             return Promise.reject(res);
           }
@@ -55,8 +54,8 @@ function App() {
       api
         .getCardsfromServer()
         .then((res) => {
-          if (typeof res === "object") {
-            setCards(res);
+          if (typeof res.data === 'object') {
+            setCards(res.data);
           } else {
             return Promise.reject(res);
           }
@@ -66,24 +65,25 @@ function App() {
   }, [loggedIn]);
 
   const tokenCheck = () => {
-    console.log(Cookies.get("jwt"));
-    if (Cookies.get("jwt")) {
+    const checkRes = document.cookie.match(/jwt=(.+?)(;|$)/);
+    const jwt = checkRes ? checkRes[0] : 'null';
+    if (jwt) {
       authApi
         .getUserData()
         .then((res) => {
           if (res.data.email) {
             setCurrentUser((prevState) => ({ ...prevState, ...res.data }));
             setLoggedIn(true);
-            navigate("/", { replace: true });
+            navigate('/', { replace: true });
           } else {
             return Promise.reject(res);
           }
         })
         .catch((err) => {
           if (err === 400) {
-            console.log("Токен не передан или передан не в том формате");
+            console.log('Токен не передан или передан не в том формате');
           } else if (err === 401) {
-            console.log("Переданный токен некорректен ");
+            console.log('Переданный токен некорректен ');
           } else {
             console.log(err);
           }
@@ -100,7 +100,7 @@ function App() {
             ...prevState,
             email: userData.email,
           }));
-          navigate("/", { replace: true });
+          navigate('/', { replace: true });
         } else {
           return Promise.reject(res);
         }
@@ -108,9 +108,9 @@ function App() {
       .catch((err) => {
         setIsFailPopupOpen(true);
         if (err === 400) {
-          console.log("Не передано одно из полей");
+          console.log('Не передано одно из полей');
         } else if (err === 401) {
-          console.log("Пользователь с таким email не найден");
+          console.log('Пользователь с таким email не найден');
         } else {
           console.log(err);
         }
@@ -123,7 +123,7 @@ function App() {
         if (res.data.email) {
           setCurrentUser((prevState) => ({ ...prevState, ...res }));
           setIsSuccessPopupOpen(true);
-          navigate("/sign-in", { replace: true });
+          navigate('/sign-in', { replace: true });
         } else {
           return Promise.reject(res);
         }
@@ -131,16 +131,24 @@ function App() {
       .catch((err) => {
         setIsFailPopupOpen(true);
         if (err === 400) {
-          console.log("Некорректно заполнено одно из полей ");
+          console.log('Некорректно заполнено одно из полей ');
         } else {
           console.log(err);
         }
       });
   };
   const handleLogOutLink = () => {
-    Cookies.remove("jwt");
-    setLoggedIn(false);
-    navigate("/sign-in", { replace: true });
+    authApi
+      .signOut()
+      .then((res) => {
+        if (res.message === 'Сеанс завершен') {
+          setLoggedIn(false);
+          navigate('/sign-in', { replace: true });
+        }
+
+        return Promise.reject(res);
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleEditProfileClick = () => {
@@ -162,15 +170,15 @@ function App() {
   };
 
   const handleCardLike = (card) => {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
 
     if (!isLiked) {
       api
         .putLike(card._id)
         .then((res) => {
-          if (res._id) {
+          if (res.data._id) {
             setCards((prevState) =>
-              prevState.map((c) => (c._id === card._id ? res : c))
+              prevState.map((c) => (c._id === card._id ? res.data : c))
             );
           } else {
             return Promise.reject(res);
@@ -181,9 +189,9 @@ function App() {
       api
         .deleteLike(card._id)
         .then((res) => {
-          if (res._id) {
+          if (res.data._id) {
             setCards((prevState) =>
-              prevState.map((c) => (c._id === card._id ? res : c))
+              prevState.map((c) => (c._id === card._id ? res.data : c))
             );
           } else {
             return Promise.reject(res);
@@ -196,7 +204,7 @@ function App() {
     api
       .deleteCard(selectedCard._id)
       .then((res) => {
-        if (res.message === "Пост удалён") {
+        if (res.data._id) {
           setCards((prevState) =>
             prevState.filter((c) => c._id !== selectedCard._id)
           );
@@ -211,8 +219,8 @@ function App() {
     api
       .patchProfileInfo(userData)
       .then((res) => {
-        if (res._id) {
-          setCurrentUser((prevState) => ({ ...prevState, ...res }));
+        if (res.data._id) {
+          setCurrentUser((prevState) => ({ ...prevState, ...res.data }));
           closeAllPopups();
         } else {
           return Promise.reject(res);
@@ -224,8 +232,8 @@ function App() {
     api
       .patchAvatar(avatarLink)
       .then((res) => {
-        if (res._id) {
-          setCurrentUser((prevState) => ({ ...prevState, ...res }));
+        if (res.data._id) {
+          setCurrentUser((prevState) => ({ ...prevState, ...res.data }));
           closeAllPopups();
         } else {
           return Promise.reject(res);
@@ -237,8 +245,8 @@ function App() {
     api
       .postNewCard(newCardInfo)
       .then((res) => {
-        if (res._id) {
-          setCards([res, ...cards]);
+        if (res.data._id) {
+          setCards([res.data, ...cards]);
           closeAllPopups();
         } else {
           return Promise.reject(res);
@@ -263,7 +271,7 @@ function App() {
       <Header loggedIn={loggedIn} handleLogOut={handleLogOutLink} />
       <Routes>
         <Route
-          path="/"
+          path='/'
           element={
             <ProtectedRouteElement
               element={Main}
@@ -279,14 +287,14 @@ function App() {
           }
         />
         <Route
-          path="/sign-in"
+          path='/sign-in'
           element={<Login handleLoginSubmit={handleLogin} />}
         />
         <Route
-          path="/sign-up"
+          path='/sign-up'
           element={<Register handleRegistrationSubmit={handleRegistration} />}
         />
-        <Route path="*" element={<Navigate to="/sign-in" replace/>}></Route>
+        <Route path='*' element={<Navigate to='/sign-in' replace />}></Route>
       </Routes>
 
       <EditProfilePopup
@@ -306,16 +314,16 @@ function App() {
       />
 
       <InfoToolTip
-        name="success"
-        title="Вы успешно зарегистрировались!"
+        name='success'
+        title='Вы успешно зарегистрировались!'
         isOpen={isSuccessPopupOpen}
         onClose={closeAllPopups}
         tipIcon={SuccessIcon}
       />
 
       <InfoToolTip
-        name="fail"
-        title="Что-то пошло не так! Попробуйте ещё раз."
+        name='fail'
+        title='Что-то пошло не так! Попробуйте ещё раз.'
         isOpen={isFailPopupOpen}
         onClose={closeAllPopups}
         tipIcon={FailIcon}

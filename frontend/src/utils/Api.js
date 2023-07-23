@@ -1,8 +1,9 @@
 class Api {
   constructor() {
-    this._baseUrl = "https://api.place.nomoredomains.xyz";
+    // this._baseUrl = "https://api.place.nomoredomains.xyz";
+    this._baseUrl = 'http://localhost:5000';
     this._headers = {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     };
   }
 
@@ -15,24 +16,24 @@ class Api {
   }
 
   fetchUserInfo() {
-    return fetch(this._baseUrl + "/users/me", {
+    return fetch(this._baseUrl + '/users/me', {
       headers: this._headers,
-      credentials: "include",
+      credentials: 'include',
     }).then((res) => this._getResponseData(res));
   }
 
   getCardsfromServer() {
-    return fetch(this._baseUrl + "/cards", {
+    return fetch(this._baseUrl + '/cards', {
       headers: this._headers,
-      credentials: "include",
+      credentials: 'include',
     }).then((res) => this._getResponseData(res));
   }
 
   patchProfileInfo(userData) {
-    return fetch(this._baseUrl + "/users/me", {
-      method: "PATCH",
-      headers: this._headers,      
-      credentials: "include",
+    return fetch(this._baseUrl + '/users/me', {
+      method: 'PATCH',
+      headers: this._headers,
+      credentials: 'include',
       body: JSON.stringify({
         name: userData.name,
         about: userData.about,
@@ -41,10 +42,10 @@ class Api {
   }
 
   postNewCard(cardData) {
-    return fetch(this._baseUrl + "/cards", {
-      method: "POST",
+    return fetch(this._baseUrl + '/cards', {
+      method: 'POST',
       headers: this._headers,
-      credentials: "include",
+      credentials: 'include',
       body: JSON.stringify({
         name: cardData.name,
         link: cardData.link,
@@ -54,32 +55,32 @@ class Api {
 
   deleteCard(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
-      method: "DELETE",      
-      credentials: "include",
+      method: 'DELETE',
+      credentials: 'include',
       headers: this._headers,
     }).then((res) => this._getResponseData(res));
   }
 
   putLike(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: "PUT",
-      credentials: "include",
+      method: 'PUT',
+      credentials: 'include',
       headers: this._headers,
     }).then((res) => this._getResponseData(res));
   }
 
   deleteLike(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-      method: "DELETE",
-      credentials: "include",
+      method: 'DELETE',
+      credentials: 'include',
       headers: this._headers,
     }).then((res) => this._getResponseData(res));
   }
 
   patchAvatar(avatarLink) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
-      method: "PATCH",
-      credentials: "include",
+      method: 'PATCH',
+      credentials: 'include',
       headers: this._headers,
       body: JSON.stringify({
         avatar: avatarLink,

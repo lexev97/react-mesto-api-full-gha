@@ -1,13 +1,13 @@
-import { useEffect, useRef } from "react";
-import PopupWithForm from "./PopupWithForm";
+import { useEffect, useRef } from 'react';
+import PopupWithForm from './PopupWithForm';
 
 const AddPlacePopup = (props) => {
   const placeNameRef = useRef();
   const picLinkRef = useRef();
 
   useEffect(() => {
-    placeNameRef.current.value = "";
-    picLinkRef.current.value = "";
+    placeNameRef.current.value = '';
+    picLinkRef.current.value = '';
   }, [props.isOpen]);
 
   const handleSubmit = (e) => {
@@ -21,9 +21,9 @@ const AddPlacePopup = (props) => {
 
   return (
     <PopupWithForm
-      name="card"
-      title="Новое место"
-      buttonText="Создать"
+      name='card'
+      title='Новое место'
+      buttonText='Создать'
       isOpen={props.isOpen}
       onClose={props.onClose}
       onSubmit={handleSubmit}
@@ -31,13 +31,13 @@ const AddPlacePopup = (props) => {
       <label>
         <input
           ref={placeNameRef}
-          className="popup__input"
-          type="text"
-          id="place-name"
-          name="placeName"
-          placeholder="Название"
-          minLength="2"
-          maxLength="30"
+          className='popup__input'
+          type='text'
+          id='place-name'
+          name='placeName'
+          placeholder='Название'
+          minLength='2'
+          maxLength='30'
           required
         />
         {/* <span className="popup__input-error place-name-error"></span> */}
@@ -45,11 +45,11 @@ const AddPlacePopup = (props) => {
       <label>
         <input
           ref={picLinkRef}
-          className="popup__input"
-          type="url"
-          id="img-link"
-          name="imgLink"
-          placeholder="Ссылка на картинку"
+          className='popup__input'
+          type='url'
+          id='img-link'
+          name='imgLink'
+          placeholder='Ссылка на картинку'
           required
         />
         {/* <span className="popup__input-error img-link-error"></span> */}
