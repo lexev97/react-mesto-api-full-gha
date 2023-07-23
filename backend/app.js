@@ -57,9 +57,6 @@ app.post(
   }),
   addUser,
 );
-app.get('/signout', (req, res, next) => {
-  res.clearCookie('jwt').send({ message: 'Сеанс завершен' });
-});
 
 app.use('/', require('./routes/index'));
 

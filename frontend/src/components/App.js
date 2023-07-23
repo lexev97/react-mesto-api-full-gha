@@ -65,14 +65,10 @@ function App() {
   }, [loggedIn]);
 
   const tokenCheck = () => {
-    const checkRes = document.cookie.match(/jwt=(.+?)(;|$)/);
-    const jwt = checkRes ? checkRes[0] : 'null';
-    if (jwt) {
       authApi
         .getUserData()
         .then((res) => {
           if (res.data.email) {
-            setCurrentUser((prevState) => ({ ...prevState, ...res.data }));
             setLoggedIn(true);
             navigate('/', { replace: true });
           } else {
@@ -87,8 +83,7 @@ function App() {
           } else {
             console.log(err);
           }
-        });
-    }
+        });    
   };
   const handleLogin = (userData) => {
     authApi
@@ -148,7 +143,9 @@ function App() {
 
         return Promise.reject(res);
       })
-      .catch((err) => console.log(err));
+      .catch(err => 
+        console.log(err)
+      );
   };
 
   const handleEditProfileClick = () => {
