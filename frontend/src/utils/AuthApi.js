@@ -1,7 +1,6 @@
 class AuthApi {
   constructor() {
-    // this._baseUrl = "https://api.place.nomoredomains.xyz";
-    this._baseUrl = 'http://localhost:5000';
+    this._baseUrl = "https://api.place.nomoredomains.xyz";
     this._signUp = '/signup';
     this._signIn = '/signin';
     this._signOut = '/signout';
