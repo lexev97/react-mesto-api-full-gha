@@ -22,7 +22,9 @@ const { PORT = 3000, MONGOOSE_DB = 'mongodb://localhost:27017/mestodb' } = proce
 const app = express();
 
 mongoose.connect(MONGOOSE_DB);
-app.use(helmet());
+app.use(helmet({
+  crossOriginEmbedderPolicy: false,
+}));
 app.use(cookieParser());
 app.use(express.json());
 
