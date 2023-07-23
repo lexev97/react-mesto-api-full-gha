@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 130.193.49.54
+IP 130.193.49.54
 
 Frontend https://place.nomoredomains.xyz
 
