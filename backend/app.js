@@ -26,6 +26,7 @@ app.use(helmet({
   crossOriginEmbedderPolicy: false,
   crossOriginResourcePolicy: false,
   crossOriginOpenerPolicy: false,
+  originAgentCluster: false,
 }));
 app.use(cookieParser());
 app.use(express.json());
