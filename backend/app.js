@@ -1,13 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const helmet = require('helmet');
+// const helmet = require('helmet');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const { celebrate, Joi } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { corsHandler } = require('./middlewares/cors');
-// const { limiter } = require('./middlewares/limiter');
+const { limiter } = require('./middlewares/limiter');
 const { linkRegex } = require('./constants/constants');
 const {
   SERVER_ERROR,
@@ -22,12 +22,12 @@ const { PORT = 3000, MONGOOSE_DB = 'mongodb://localhost:27017/mestodb' } = proce
 const app = express();
 
 mongoose.connect(MONGOOSE_DB);
-app.use(helmet());
+// app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 
 app.use(requestLogger);
-// app.use(limiter);
+app.use(limiter);
 app.use(corsHandler);
 
 app.get('/crash-test', () => {
