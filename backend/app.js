@@ -24,6 +24,8 @@ const app = express();
 mongoose.connect(MONGOOSE_DB);
 app.use(helmet({
   crossOriginEmbedderPolicy: false,
+  crossOriginResourcePolicy: false,
+  crossOriginOpenerPolicy: false,
 }));
 app.use(cookieParser());
 app.use(express.json());
