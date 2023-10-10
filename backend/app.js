@@ -1,13 +1,11 @@
 require("dotenv").config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
-// const helmet = require('helmet');
 const mongoose = require("mongoose");
 const { errors } = require("celebrate");
 const { celebrate, Joi } = require("celebrate");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 const { corsHandler } = require("./middlewares/cors");
-// const { limiter } = require('./middlewares/limiter');
 const { linkRegex } = require("./constants/constants");
 const { SERVER_ERROR, BAD_REQUEST, CONFLICT } = require("./errors/statusCodes");
 const { login, addUser } = require("./controllers/users");
@@ -19,13 +17,10 @@ const { PORT = 3000, MONGOOSE_DB = "mongodb://localhost:27017/mestodb" } =
 const app = express();
 
 mongoose.connect(MONGOOSE_DB);
-// К сожалению, при подключении Helmet и limiter как вместе так и отдельно, выдает ошибку политики CORS.
-// app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 
 app.use(requestLogger);
-// app.use(limiter);
 app.use(corsHandler);
 
 app.post(
