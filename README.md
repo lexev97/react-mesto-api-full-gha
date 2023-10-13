@@ -63,11 +63,12 @@ $ npm run dev
 
 ## Ссылки на проект
 
-Frontend: https://place.nomoredomains.xyz <br/>
-**тестовый аккаунт:**<br/>
+Frontend https://place.nomoredomains.xyz 
+
+#### тестовый аккаунт:
 email: mail@mail.ru<br/>
 pass: 123456789<br/>
 
-Backend: https://api.place.nomoredomains.xyz
+Backend https://api.place.nomoredomains.xyz
 
-IP: 84.201.143.32
+IP 84.201.143.32
