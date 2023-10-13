@@ -34,13 +34,13 @@
 // Клонирование репозитория
 $ git clone https://github.com/lexev97/react-mesto-api-full-gha.git
 
-// Переход в пиректорию с frontend частью проекта
+// Переход в директорию с frontend частью проекта
 $ cd react-mesto-api-full-gha/frontend
 
 // Установка зависимостей
 $ npm install
 
-// Переход в пиректорию с backend частью проекта
+// Переход в директорию с backend частью проекта
 $ cd .. && cd react-mesto-api-full-gha/backend
 
 // Установка зависимостей
