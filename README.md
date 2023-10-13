@@ -53,7 +53,10 @@ $ npm install
 // Запуск frontend части (при нахождении в директории react-mesto-api-full-gha/frontend)
 $ npm start
 
-// Запуск backend части (при нахождении в директории react-mesto-api-full-gha/backend)
+// Запуск сервера (при нахождении в директории react-mesto-api-full-gha/backend)
+$ npm run start 
+
+// Запуск сервера с hot-reload (при нахождении в директории react-mesto-api-full-gha/backend)
 $ npm run dev
 ```
 
