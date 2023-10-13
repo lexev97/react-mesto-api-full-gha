@@ -63,7 +63,10 @@ $ npm run dev
 
 ## Ссылки на проект
 
-Frontend: https://place.nomoredomains.xyz
+Frontend: https://place.nomoredomains.xyz <br/>
+**тестовый аккаунт:**<br/>
+email: mail@mail.ru<br/>
+pass: 123456789<br/>
 
 Backend: https://api.place.nomoredomains.xyz
 
